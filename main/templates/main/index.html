@@ -1,0 +1,11 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block body %}
+    <h1>Journey Wise</h1>
+    <hr>
+    {% if user.is_authenticated %}
+        <h3>Hello {{user.username}}</h3>
+    {% else %}
+        <h3>You are not logged in<h3>
+    {% endif %}
+{% endblock %}
