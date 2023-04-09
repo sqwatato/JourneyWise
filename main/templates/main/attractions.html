@@ -38,7 +38,13 @@
             alt=""
           />
     <h2>{{place}}</h2>
-
+    {% if user.is_authenticated %}
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="dbid" value={{dbid}}>
+        <button type="submit">Add to Visit List</button>
+      </form>
+    {% endif %}
     <div id="restaurant">
       <h3 style="text-align:centerfont-size:50px">Places to Eat</h3>
       <div class="tr-wrapper">

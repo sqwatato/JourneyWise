@@ -4,13 +4,12 @@ from .models import *
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ("id","username")
+    filter_horizontal = ("destinations",)
+    
     
 class DestinationAdmin(admin.ModelAdmin):
     list_display = ("id", "city", "country", "popular")
-    
-class TripPlanAdmin(admin.ModelAdmin):
-    list_display = ("id", "booker")
+    filter_horizontal=("booker",)
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Destination, DestinationAdmin)
-admin.site.register(TripPlan, TripPlanAdmin)
