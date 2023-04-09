@@ -19,18 +19,20 @@ amadeus = Client(client_id=env('AMADEUS_API_KEY'),
                  client_secret=env('AMADEUS_SECRET_KEY'))
 
 
-def index(request):
-    city = Destination.objects.get(id=1).city
-    country = Destination.objects.get(id=1).country
-    try:
-        response = amadeus.reference_data.locations.cities.get(
-            keyword=city).result
-        # response = {'meta': {'count': 1, 'links': {'self': 'https://test.api.amadeus.com/v1/reference-data/locations/cities?keyword=Hong+Kong&max=1000'}}, 'data': [{'type': 'location', 'subType': 'city', 'name': 'Hong Kong', 'iataCode': 'HKG', 'address': {'countryCode': 'HK', 'stateCode': 'HK-ZZZ'}, 'geoCode': {'latitude': 22.27832, 'longitude': 114.17469}}]}
-        lat, lon = response['data'][0]['geoCode'].values()
-        # print(lat, lon)
-    except ResponseError as error:
-        response = "Couldn't find the city: " + city
-
+def attractions(request):
+    city = Destination.objects.get(id=3).city
+    country = Destination.objects.get(id=3).country
+    # try:
+    #     response = amadeus.reference_data.locations.cities.get(
+    #         keyword=city).result
+    #     # response = {'meta': {'count': 1, 'links': {'self': 'https://test.api.amadeus.com/v1/reference-data/locations/cities?keyword=Hong+Kong&max=1000'}}, 'data': [{'type': 'location', 'subType': 'city', 'name': 'Hong Kong', 'iataCode': 'HKG', 'address': {'countryCode': 'HK', 'stateCode': 'HK-ZZZ'}, 'geoCode': {'latitude': 22.27832, 'longitude': 114.17469}}]}
+    #     lat, lon = response['data'][0]['geoCode'].values()
+    #     # print(lat, lon)
+    # except ResponseError as error:
+    #     response = "Couldn't find the city: " + city
+    response = gmaps.find_place(f"{city}, {country}", "textquery", fields=["geometry/location"])
+    print(response)
+    lat, lon = response['candidates'][0]['geometry']['location'].values()
     loc = (lat, lon)
     eat = gmaps.places_nearby(location=loc, radius=20000, type="restaurant")[
         'results'][:6]
@@ -39,9 +41,35 @@ def index(request):
         location=loc, radius=20000, keyword="Things to Do")['results'][:6]
     # print(eat,places)
 
-    return render(request, "main/index.html", {
+    return render(request, "main/attractions.html", {
         "eat": eat,
         "places": places,
+        "api": maps_api
+    })
+    
+def index(request):
+    places = Destination.objects.all()
+    city, country = [],[]
+    for i in range(12):
+        city.append(places[i].city)
+        country.append(places[i].country)
+    # try:
+    #     response = amadeus.reference_data.locations.cities.get(
+    #         keyword=city).result
+    #     # response = {'meta': {'count': 1, 'links': {'self': 'https://test.api.amadeus.com/v1/reference-data/locations/cities?keyword=Hong+Kong&max=1000'}}, 'data': [{'type': 'location', 'subType': 'city', 'name': 'Hong Kong', 'iataCode': 'HKG', 'address': {'countryCode': 'HK', 'stateCode': 'HK-ZZZ'}, 'geoCode': {'latitude': 22.27832, 'longitude': 114.17469}}]}
+    #     lat, lon = response['data'][0]['geoCode'].values()
+    #     # print(lat, lon)
+    # except ResponseError as error:
+    #     response = "Couldn't find the city: " + city
+    spots = []
+    for cit, con, in zip(city, country):
+        response = gmaps.find_place(f"{cit}, {con}", "textquery", fields=["price_level", "geometry/location", "place_id", "rating", "photos"])
+        print(response)
+        lat, lon = response['candidates'][0]['geometry']['location'].values()
+        spots.append((cit,con,lat,lon))
+
+    return render(request, "main/index.html", {
+        "spots": spots,
         "api": maps_api
     })
 
@@ -98,8 +126,8 @@ def register(request):
         return render(request, "main/register.html")
 
 
-def attractions(request):
-    return render(request, "main/attractions.html")
+# def attractions(request):
+#     return render(request, "main/attractions.html")
 
 def intro(request):
     return render(request, "main/intro.html")

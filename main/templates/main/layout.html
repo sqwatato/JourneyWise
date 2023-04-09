@@ -10,7 +10,7 @@
     <title>Travel Mate</title>
   </head>
   <body>
-        <nav class="navbar">
+        {% comment %} <nav class="navbar">
         <div class="navbar-header">
             <div class="ano">
             <p style="font-size: 1.6rem">TravelMate</p>
@@ -36,7 +36,46 @@
         </nav>
         <div class="progress-container">
             <div class="progress-bar" id="myBar"></div>
-          </div>
+          </div> {% endcomment %}
+        <nav class="navbar">
+            <div class="navbar-header">
+                <div class="ano">
+                <p style="font-size: 1.6rem">TravelMate</p>
+                </div>
+                <div class="ano2">
+                <button type="button"  class="navbar-toggle" id="navbar-toggle">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                </div>
+            </div>
+            <div class="navbar-menu" id="navbar-menu">
+                <ul class="navbar-nav">
+                <li class="nav-item"><a href="#">Home</a></li>
+                <li class="nav-item"><a href="{% url 'attractions' %}">Attractions</a></li>
+                <li class="nav-item"><a href="#">Stays</a></li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><strong>{{ user.username }}</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                {% endif %}
+                </ul>
+            </div>
+        </nav>
+        <div class="progress-container">
+            <div class="progress-bar" id="myBar"></div>
+        </div>
         {% block body %}
         {% endblock %}
         </div>
