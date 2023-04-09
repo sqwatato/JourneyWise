@@ -6,9 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Travel Mate</title>
+   
     <link href="{% static 'main/css/responsive.css' %}" rel="stylesheet">
     <link href="{% static 'main/css/attractions.css' %}" rel="stylesheet">
     <script src="{% static 'main/js/attractions.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'main/css/home.css' %}"/>
 {% endblock %}
 {% block body %}
     <div class="tr-card">
@@ -18,16 +20,6 @@
         <img
           class="slider-image"
           src="{% static 'main/img/maldives/colin-watts-M1ObxvsWVhY-unsplash.jpg' %}"
-        />
-        <img class="slider-image" src="{% static 'main/img/maldives/maldives-1993704.jpg' %}" />
-        <img
-          class="slider-image"
-          src="{% static 'main/img/maldives/masroor-ahmed-DW2u6LE1p-I-unsplash.jpg' %}"
-        />
-
-        <img
-          class="slider-image"
-          src="{% static 'main/img/maldives/rayyu-maldives-xPsFXsbXJRg-unsplash.jpg' %}"
         />
         <button class="prev-button"></button>
         <button class="next-button"></button>
@@ -39,15 +31,15 @@
           sandy beaches, and overwater bungalows. It's a great destination for
           snorkeling, diving, and relaxing in luxury resorts.
         </p>
-        <button><a href="{% url 'attractions' %}">BOOK NOW</a></button>
       </div>
     </div>
 
     <div id="restaurant">
-      <h3>Places to Eat</h3>
+      <h3 style="text-align:center">Places to Eat</h3>
 
-      {% for restaurant in eat %} {% if restaurant.url %}
-      <a href="{{restaurant.url}}"><h3>{{restaurant.name}}</h3></a>
+      {% for restaurant in eat %} 
+      {% if restaurant.url %}
+        <a href="{{restaurant.url}}"><h3>{{restaurant.name}}</h3></a>
       {% else %}
       <h3>{{restaurant.name}}</h3>
       {% endif %}
@@ -58,28 +50,51 @@
             alt=""
           />
         {% endif %} 
-        {% if restaurant.dine_in %}
-          <li>Dine In: {{restaurant.dine_in}}</li>  
-        {% endif %} {% if restaurant.price_level == 0 %}
-        <li>Price Level: Free</li>
-        {% elif restaurant.price_level == 1 %}
-        <li>Price Level: Inexpensive</li>
-        {% elif restaurant.price_level == "2" %}
-        <li>Price Level: Moderate</li>
-        {% elif restaurant.price_level == 3 %}
-        <li>Price Level: Expensive</li>
-        {% elif restaurant.price_level == 4 %}
-        <li>Price Level: Very Expensive</li>
-        {% endif %} {% if restaurant.rating %}
-        <li>Rating: {{restaurant.rating}}/5</li>
-        {% endif %} {% if restaurant.formatted_phone_number %}
-        <li>Phone Number: {{restaurant.formatted_phone_number}}</li>
-        {% endif %} {% if restaurant.formatted_address %}
-        <li>Address: {{restaurant.formatted_address}}</li>
-        {% endif %}
+        
       </ul>
-      <hr />
       {% endfor %}
+      <div class="tr-wrapper">
+        {% for restaurant in eat %}
+          <div class="tr-card">
+              <div class="tr-badge">
+              {% comment %} <h4 style="color: black">$500</h4> {% endcomment %}
+              </div>
+              {% if restaurant.photos %}
+                <img
+                  src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{restaurant.photos.0.photo_reference}}&key={{api}}"
+                  alt=""
+                />
+              {% endif %} 
+              <div class="trinfo">
+              <div class="tripn">{{restaurant.name}}</div>
+              <p>
+                <ul>
+                  {% if restaurant.dine_in %}
+                  <li>Dine In: {{restaurant.dine_in}}</li>  
+                  {% endif %} {% if restaurant.price_level == 0 %}
+                  <li>Price Level: Free</li>
+                  {% elif restaurant.price_level == 1 %}
+                  <li>Price Level: Inexpensive</li>
+                  {% elif restaurant.price_level == 2 %}
+                  <li>Price Level: Moderate</li>
+                  {% elif restaurant.price_level == 3 %}
+                  <li>Price Level: Expensive</li>
+                  {% elif restaurant.price_level == 4 %}
+                  <li>Price Level: Very Expensive</li>
+                  {% endif %} {% if restaurant.rating %}
+                  <li>Rating: {{restaurant.rating}}/5</li>
+                  {% endif %} {% if restaurant.formatted_phone_number %}
+                  <li>Phone Number: {{restaurant.formatted_phone_number}}</li>
+                  {% endif %} {% if restaurant.formatted_address %}
+                  <li>Address: {{restaurant.formatted_address}}</li>
+                  {% endif %}
+                </ul>
+              </p>
+              <button><a href="{{restaurant.url}}">Learn More</a></button>
+              </div>
+          </div>
+        {% endfor %}
+      </div>
     </div>
 
     <div id="tourist_spot">

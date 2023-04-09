@@ -11,4 +11,4 @@ class TripPlan(models.Model):
     destinations = models.ForeignKey(Destination, related_name="trip_plans", on_delete=models.CASCADE)
 
 class User(AbstractUser):
-    trip_plan = models.OneToOneField(TripPlan, related_name="booker", on_delete=models.CASCADE, blank=True, null=True)
+    trip_plan = models.OneToOneField(TripPlan, related_name="booker", on_delete=models.CASCADE)
