@@ -30,8 +30,9 @@ def attractions(request):
     #     # print(lat, lon)
     # except ResponseError as error:
     #     response = "Couldn't find the city: " + city
-    response = gmaps.find_place(f"{city}, {country}", "textquery", fields=["geometry/location"])
-    print(response)
+    response = gmaps.find_place(
+        f"{city}, {country}", "textquery", fields=["geometry/location"])
+    # print(response)
     lat, lon = response['candidates'][0]['geometry']['location'].values()
     loc = (lat, lon)
     eat = gmaps.places_nearby(location=loc, radius=20000, type="restaurant")[
@@ -46,10 +47,11 @@ def attractions(request):
         "places": places,
         "api": maps_api
     })
-    
+
+
 def index(request):
     places = Destination.objects.all()
-    city, country = [],[]
+    city, country = [], []
     for i in range(12):
         city.append(places[i].city)
         country.append(places[i].country)
@@ -63,11 +65,12 @@ def index(request):
     #     response = "Couldn't find the city: " + city
     spots = []
     for cit, con, in zip(city, country):
-        response = gmaps.find_place(f"{cit}, {con}", "textquery", fields=["price_level", "geometry/location", "place_id", "rating", "photos"])
-        print(response)
+        response = gmaps.find_place(f"{cit}, {con}", "textquery", fields=[
+                                    "price_level", "geometry/location", "place_id", "rating", "photos"])
+        # print(response)
         lat, lon = response['candidates'][0]['geometry']['location'].values()
         photo = response['candidates'][0]['photos'][0]['photo_reference']
-        spots.append((cit,con,lat,lon,photo))
+        spots.append((cit, con, lat, lon, photo))
 
     return render(request, "main/index.html", {
         "spots": spots,
