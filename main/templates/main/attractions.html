@@ -6,178 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Travel Mate</title>
-    <link href="{% static 'main/responsive.css' %}" rel="stylesheet">
+    <link href="{% static 'main/css/responsive.css' %}" rel="stylesheet">
+    <link href="{% static 'main/css/attractions.css' %}" rel="stylesheet">
+    <script src="{% static 'main/js/attractions.js' %}"></script>
 {% endblock %}
 {% block body %}
-  <style>
-    @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
-
-    @import url("https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Foundation:wght@600&display=swap");
-    /* imports*/
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Lobster", cursive;
-    }
-
-    /* button {
-  display: none;
-} */
-
-    /* nav bar style starts*/
-
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      /* background: linear-gradient(145deg, rgba(226,91,91,1) 1%, rgba(214,93,227,1) 100%); */
-      background-color: #1a2470;
-      color: #fff;
-      height: 65px;
-      padding: 15px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-
-    .navbar-brand {
-      font-size: 1.5rem;
-    }
-
-    .navbar-nav {
-      display: flex;
-      list-style: none;
-    }
-
-    .nav-item {
-      margin-left: 35px;
-    }
-
-    .nav-item a {
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 1.5rem;
-      /* border: solid; */
-      /* transition: background-color 0.7s ease;
-  transition: padding 0.5s ease-in-out; */
-      transition: all 0.3s ease-in-out;
-    }
-
-    .nav-item a:hover {
-      color: #b6c9ff;
-    }
-
-    /* The progress container (grey background) */
-    .progress-container {
-      width: 100%;
-      height: 6px;
-      background: #41498a;
-      position: sticky;
-      top: 60px;
-      z-index: 1;
-    }
-
-    /* The progress bar (scroll indicator) */
-    .progress-bar {
-      height: 6px;
-      background: #8583ff;
-      width: 0%;
-    }
-    .tr-card {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      margin-top: 30px;
-    }
-
-    .slider-container {
-      position: relative;
-      height: 400px;
-      width: 60%;
-      margin: 0 auto;
-      overflow: hidden;
-    }
-
-    .slider-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      border-radius: 10px;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-    }
-
-    .slider-image.active {
-      opacity: 1;
-    }
-
-    .prev-button,
-    .next-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 10px;
-      background-color: #fff;
-      border: none;
-      cursor: pointer;
-      font-size: 20px;
-      z-index: 1;
-    }
-
-    .prev-button {
-      left: 0;
-    }
-
-    .next-button {
-      right: 0;
-    }
-
-    .prev-button::before,
-    .next-button::before {
-      content: "";
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 0;
-      height: 0;
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent;
-      z-index: 1;
-    }
-
-    .prev-button::before {
-      border-right: 10px solid #000;
-      left: 10px;
-      margin-left: -5px;
-    }
-
-    .next-button::before {
-      border-left: 10px solid #000;
-      right: 10px;
-      margin-right: -5px;
-    }
-  </style>
     <div class="tr-card">
 
       <div class="slider-container">
 
         <img
           class="slider-image"
-          src="maldives/colin-watts-M1ObxvsWVhY-unsplash.jpg"
+          src="{% static 'main/img/maldives/colin-watts-M1ObxvsWVhY-unsplash.jpg' %}"
         />
-        <img class="slider-image" src="maldives/maldives-1993704.jpg" />
+        <img class="slider-image" src="{% static 'main/img/maldives/maldives-1993704.jpg' %}" />
         <img
           class="slider-image"
-          src="maldives/masroor-ahmed-DW2u6LE1p-I-unsplash.jpg"
+          src="{% static 'main/img/maldives/masroor-ahmed-DW2u6LE1p-I-unsplash.jpg' %}"
         />
 
         <img
           class="slider-image"
-          src="maldives/rayyu-maldives-xPsFXsbXJRg-unsplash.jpg"
+          src="{% static 'main/img/maldives/rayyu-maldives-xPsFXsbXJRg-unsplash.jpg' %}"
         />
         <button class="prev-button"></button>
         <button class="next-button"></button>
@@ -193,35 +43,74 @@
       </div>
     </div>
 
-    <script>
-      let slideIndex = 0;
-      const images = document.querySelectorAll(".slider-image");
-      const prevButton = document.querySelector(".prev-button");
-      const nextButton = document.querySelector(".next-button");
+    <div id="restaurant">
+      <h3>Places to Eat</h3>
 
-      showSlide(slideIndex);
+      {% for restaurant in eat %} {% if restaurant.url %}
+      <a href="{{restaurant.url}}"><h3>{{restaurant.name}}</h3></a>
+      {% else %}
+      <h3>{{restaurant.name}}</h3>
+      {% endif %}
+      <ul>
+        {% if restaurant.photos %}
+        <img
+          src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{restaurant.photos.0.photo_reference}}&key={{api}}"
+          alt=""
+        />
+        {% endif %} {% if restaurant.dine_in %}
+        <li>Dine In: {{restaurant.dine_in}}</li>
+        {% endif %} {% if restaurant.price_level == 0 %}
+        <li>Price Level: Free</li>
+        {% elif restaurant.price_level == 1 %}
+        <li>Price Level: Inexpensive</li>
+        {% elif restaurant.price_level == "2" %}
+        <li>Price Level: Moderate</li>
+        {% elif restaurant.price_level == 3 %}
+        <li>Price Level: Expensive</li>
+        {% elif restaurant.price_level == 4 %}
+        <li>Price Level: Very Expensive</li>
+        {% endif %} {% if restaurant.rating %}
+        <li>Rating: {{restaurant.rating}}/5</li>
+        {% endif %} {% if restaurant.formatted_phone_number %}
+        <li>Phone Number: {{restaurant.formatted_phone_number}}</li>
+        {% endif %} {% if restaurant.formatted_address %}
+        <li>Address: {{restaurant.formatted_address}}</li>
+        {% endif %}
+      </ul>
+      <hr />
+      {% endfor %}
+    </div>
 
-      prevButton.addEventListener("click", () => {
-        slideIndex--;
-        if (slideIndex < 0) {
-          slideIndex = images.length - 1;
-        }
-        showSlide(slideIndex);
-      });
-
-      nextButton.addEventListener("click", () => {
-        slideIndex++;
-        if (slideIndex > images.length - 1) {
-          slideIndex = 0;
-        }
-        showSlide(slideIndex);
-      });
-
-      function showSlide(index) {
-        for (let i = 0; i < images.length; i++) {
-          images[i].classList.remove("active");
-        }
-        images[index].classList.add("active");
-      }
-    </script>
+    <div id="tourist_spot">
+      <h3>Places to See</h3>
+      {% for place in places %} {% if place.url %}
+      <a href="{{place.url}}"><h3>{{place.name}}</h3></a>
+      {% else %}
+      <h3>{{place.name}}</h3>
+      {% endif %}
+      <ul>
+        {% if place.photos %}
+        <img
+          src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{place.photos.0.photo_reference}}&key={{api}}"
+          alt=""
+        />
+        {% endif %} {% if place.price_level == 0 %}
+        <li>Price Level: Free</li>
+        {% elif place.price_level == 1 %}
+        <li>Price Level: Inexpensive</li>
+        {% elif place.price_level == 2 %}
+        <li>Price Level: Moderate</li>
+        {% elif place.price_level == 3 %}
+        <li>Price Level: Expensive</li>
+        {% elif place.price_level == 4 %}
+        <li>Price Level: Very Expensive</li>
+        {% endif %} {% if place.rating %}
+        <li>Rating: {{place.rating}}/5</li>
+        {% endif %} {% if place.formatted_address %}
+        <li>Address: {{place.formatted_address}}</li>
+        {% endif %}
+      </ul>
+      <hr />
+      {% endfor %}
+    </div>
 {% endblock %}
