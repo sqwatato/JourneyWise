@@ -35,110 +35,17 @@
         </div>
   
         <div class="tr-wrapper">
-          <div class="tr-card">
-            <div class="tr-badge">
-              <h4 style="color: black">$500</h4>
-            </div>
-            <img src="maldives/rayyu-maldives-xPsFXsbXJRg-unsplash.jpg' %}" />
-            <div class="trinfo">
-              <div class="tripn">Beautiful Maldives</div>
-              <p>
-                The Maldives is a paradise on earth, with its turquoise waters,
-                white sandy beaches, and overwater bungalows. It's a great
-                destination for snorkeling, diving, and relaxing in luxury
-                resorts.
-              </p>
-              <button><a href="attractions.html">BOOK NOW</a></button>
-            </div>
-          </div>
-          <div class="tr-card">
-            <div class="tr-badge">
-              <h4 style="color: black">$200</h4>
-            </div>
-            <img src="{% static 'main/img/jaipur.jpg' %}" />
-            <div class="trinfo">
-              <div class="tripn">Jaipur , India</div>
-              <p>
-                Jaipur, also known as the "Pink City," is a vibrant and colorful
-                destination filled with stunning architecture, bustling bazaars,
-                and delicious food.
-              </p>
-              <button>
-                <a href="https://thebucketlisttrips.com/corona">BOOK NOW</a>
-              </button>
-            </div>
-          </div>
-          <div class="tr-card">
-            <div class="tr-badge">
-              <h4 style="color: black">$244</h4>
-            </div>
-            <img src="{% static 'main/img/paris-1852928.jpg' %}" />
-            <div class="trinfo">
-              <div class="tripn">Paris , France</div>
-              <p>
-                Paris is renowned for its stunning architecture, including the
-                iconic Eiffel Tower and Gothic Notre-Dame Cathedral.
-              </p>
-              <button>
-                <a href="https://thebucketlisttrips.com/corona">BOOK NOW</a>
-              </button>
-            </div>
-          </div>
-          <div class="tr-card">
-            <div class="tr-badge">
-              <h4 style="color: black">$311</h4>
-            </div>
-            <img src="{% static 'main/img/japan-1706942.jpg' %}" />
-            <div class="trinfo">
-              <div class="tripn">Mount fuji , Japan</div>
-              <p>
-                Mount Fuji is the highest mountain in Japan, standing tall at
-                3,776 meters and offering breathtaking views of the surrounding
-                countryside.
-              </p>
-              <button><a href="#">BOOK NOW</a></button>
-            </div>
-          </div>
-          <div class="tr-card">
-            <div class="tr-badge">
-              <h4 style="color: black">$100</h4>
-            </div>
-            <img src="{% static 'main/img/taj-mahal-383097.jpg' %}" />
-            <div class="trinfo">
-              <div class="tripn">Taj mahal , India</div>
-              <p>
-                The Taj Mahal, located in Agra, India, is a beautiful mausoleum
-                made entirely of white marble, and is often considered one of the
-                most beautiful buildings in the world.
-              </p>
-              <button>
-                <a href="https://thebucketlisttrips.com/corona">BOOK NOW</a>
-              </button>
-            </div>
-          </div>
-          <div class="tr-card">
-            <div class="tr-badge">
-              <h4 style="color: black">$242</h4>
-            </div>
-            <img src="{% static 'main/img/new-york-3558337_1920.jpg' %}" />
-            <div class="trinfo">
-              <div class="tripn">Statue of liberty</div>
-              <p>
-                Visitors can climb the 354 steps to the crown for a breathtaking
-                view of New York City's skyline.
-              </p>
-              <button>
-                <a href="https://thebucketlisttrips.com/corona">BOOK NOW</a>
-              </button>
-            </div>
-          </div>
-        </div>
-        {% for city, country, lat, lon in spots %}
+          {% for city, country, lat, lon, photo in spots %}
             <div class="tr-card">
                 <div class="tr-badge">
                 <h4 style="color: black">$500</h4>
                 </div>
-                <img src="maldives/rayyu-maldives-xPsFXsbXJRg-unsplash.jpg' %}" />
+                {% if photo %}
+                  <img
+                    src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photo_reference={{photo}}&key={{api}}"
+                    alt=""
+                  />
+                {% endif %}
                 <div class="trinfo">
                 <div class="tripn">{{city}}, {{country}}</div>
                 <p>
@@ -153,6 +60,7 @@
                 </div>
             </div>
         {% endfor %}
+        </div>
       </section>
 
     {% endblock %}

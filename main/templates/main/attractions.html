@@ -53,12 +53,13 @@
       {% endif %}
       <ul>
         {% if restaurant.photos %}
-        <img
-          src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{restaurant.photos.0.photo_reference}}&key={{api}}"
-          alt=""
-        />
-        {% endif %} {% if restaurant.dine_in %}
-        <li>Dine In: {{restaurant.dine_in}}</li>
+          <img
+            src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{restaurant.photos.0.photo_reference}}&key={{api}}"
+            alt=""
+          />
+        {% endif %} 
+        {% if restaurant.dine_in %}
+          <li>Dine In: {{restaurant.dine_in}}</li>  
         {% endif %} {% if restaurant.price_level == 0 %}
         <li>Price Level: Free</li>
         {% elif restaurant.price_level == 1 %}
