@@ -24,7 +24,7 @@ def attractions(request, id):
     country = Destination.objects.get(id=id).country
     response = gmaps.find_place(
         f"{city}, {country}", "textquery", fields=["geometry/location"])
-    print(response)
+    # print(response)
     lat, lon = response['candidates'][0]['geometry']['location'].values()
     loc = (lat, lon)
     eat = gmaps.places_nearby(location=loc, radius=20000, type="restaurant")[
@@ -60,7 +60,7 @@ def index(request):
     for cit, con, dbid in zip(city, country, db):
         response = gmaps.find_place(f"{cit}, {con}", "textquery", fields=[
                                     "price_level", "geometry/location", "place_id", "rating", "photos"])
-        print(response)
+        # print(response)
         lat, lon = response['candidates'][0]['geometry']['location'].values()
         photo = response['candidates'][0]['photos'][0]['photo_reference']
         id = response['candidates'][0]['place_id']
