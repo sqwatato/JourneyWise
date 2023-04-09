@@ -20,12 +20,18 @@ amadeus = Client(client_id=env('AMADEUS_API_KEY'),
 
 
 def attractions(request, id):
+
+    if request.method == 'POST':
+        request.user.destinations.add(Destination.objects.get(id=id))
+        return HttpResponseRedirect(reverse("index"))
+
     city = Destination.objects.get(id=id).city
     country = Destination.objects.get(id=id).country
     place = city + ", " + country
-    response = gmaps.find_place(f"{city}, {country}", "textquery", fields=["geometry/location", "photos"])
+    response = gmaps.find_place(f"{city}, {country}", "textquery", fields=[
+                                "geometry/location", "photos"])
     photo = response['candidates'][0]['photos'][0]['photo_reference']
-    print(response)
+    # print(response)
     lat, lon = response['candidates'][0]['geometry']['location'].values()
     loc = (lat, lon)
     eat = gmaps.places_nearby(location=loc, radius=20000, type="restaurant")[
@@ -40,14 +46,50 @@ def attractions(request, id):
         "photo": photo,
         "eat": eat,
         "places": places,
-        "api": maps_api
+        "api": maps_api,
+        "dbid": id
     })
+
+
+def plans(request):
+    if request.user.is_authenticated:
+        places = Destination.objects.filter(booker=request.user)
+        city, country, db = [], [], []
+        for i in range(len(places)):
+            city.append(places[i].city)
+            country.append(places[i].country)
+            db.append(places[i].id)
+        # try:
+        #     response = amadeus.reference_data.locations.cities.get(
+        #         keyword=city).result
+        #     # response = {'meta': {'count': 1, 'links': {'self': 'https://test.api.amadeus.com/v1/reference-data/locations/cities?keyword=Hong+Kong&max=1000'}}, 'data': [{'type': 'location', 'subType': 'city', 'name': 'Hong Kong', 'iataCode': 'HKG', 'address': {'countryCode': 'HK', 'stateCode': 'HK-ZZZ'}, 'geoCode': {'latitude': 22.27832, 'longitude': 114.17469}}]}
+        #     lat, lon = response['data'][0]['geoCode'].values()
+        #     # print(lat, lon)
+        # except ResponseError as error:
+        #     response = "Couldn't find the city: " + city
+        spots = []
+        for cit, con, dbid in zip(city, country, db):
+            response = gmaps.find_place(f"{cit}, {con}", "textquery", fields=[
+                                        "price_level", "geometry/location", "place_id", "rating", "photos"])
+            # print(response)
+            lat, lon = response['candidates'][0]['geometry']['location'].values(
+            )
+            photo = response['candidates'][0]['photos'][0]['photo_reference']
+            id = response['candidates'][0]['place_id']
+            spots.append((dbid, id, cit, con, lat, lon, photo))
+
+        return render(request, "main/plans.html", {
+            "spots": spots,
+            "api": maps_api
+        })
+    else:
+        return HttpResponseRedirect(reverse("login"))
 
 
 def index(request):
     places = Destination.objects.all()
     city, country, db = [], [], []
-    for i in range(12):
+    for i in range(15):
         city.append(places[i].city)
         country.append(places[i].country)
         db.append(places[i].id)
@@ -107,11 +149,6 @@ def register(request):
 
         # Ensure password matches confirmation
         password = request.POST["password"]
-        confirmation = request.POST["confirmation"]
-        if password != confirmation:
-            return render(request, "main/register.html", {
-                "message": "Passwords must match."
-            })
 
         # Attempt to create new user
         try:
