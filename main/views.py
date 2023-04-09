@@ -20,8 +20,8 @@ amadeus = Client(client_id=env('AMADEUS_API_KEY'),
 
 
 def index(request):
-    city = Destination.objects.get(id=102).city
-    country = Destination.objects.get(id=102).country
+    city = Destination.objects.get(id=1).city
+    country = Destination.objects.get(id=1).country
     try:
         response = amadeus.reference_data.locations.cities.get(
             keyword=city).result
@@ -32,9 +32,11 @@ def index(request):
         response = "Couldn't find the city: " + city
 
     loc = (lat, lon)
-    eat = gmaps.places_nearby(location=loc, radius=20000, type="restaurant")['results'][:6]
+    eat = gmaps.places_nearby(location=loc, radius=20000, type="restaurant")[
+        'results'][:6]
     # places = gmaps.places_nearby(location=loc, radius=50000, type="tourist_attraction")['results'][:6]
-    places = gmaps.places_nearby(location=loc, radius=20000, keyword="Things to Do")['results'][:6]
+    places = gmaps.places_nearby(
+        location=loc, radius=20000, keyword="Things to Do")['results'][:6]
     # print(eat,places)
 
     return render(request, "main/index.html", {
@@ -95,3 +97,6 @@ def register(request):
     else:
         return render(request, "main/register.html")
 
+
+def attractions(request):
+    return render(request, "main/attractions.html")
