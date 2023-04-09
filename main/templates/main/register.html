@@ -1,5 +1,3 @@
-{% extends "main/layout.html" %}
-
 {% block body %}
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Foundation:wght@600&display=swap');
@@ -85,15 +83,17 @@
   <div class="container">
 		<h1>Sign Up</h1>
         {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
+            <div>{{ message }}</div>
+        {% endif %}
 		<form id="signup-form" action="{% url 'login' %}" method="post">
 			{% csrf_token %}
+            <label for="name">Name:</label>
+			<input type="text" id="name" name="name" placeholder="Enter your full name" required>
             <label for="email">Email:</label>
 			<input type="email" id="email" name="email" placeholder="Enter your email"  required>
-      <label for="password">Password:</label>
-			<input type="password" class="password" name="password" placeholder="Enter your password"  required>
-      <button type="submit">Sign Up</button>
+            <label for="password">Password:</label>
+            <input type="password" class="password" name="password" placeholder="Enter your password"  required>
+            <button type="submit">Sign Up</button>
 		</form>
         <div>Already have an account? <a href="{% url 'login' %}">Log In here.</a></div>
 	</div>

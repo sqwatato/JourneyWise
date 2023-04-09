@@ -100,3 +100,6 @@ def register(request):
 
 def attractions(request):
     return render(request, "main/attractions.html")
+
+def intro(request):
+    return render(request, "main/intro.html")

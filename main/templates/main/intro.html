@@ -1,0 +1,34 @@
+{% extends "main/layout.html" %}
+
+{% load static %}
+{% block head %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Mate</title>
+    <link href="{% static 'main/style.css' %}" rel="stylesheet">
+    <link href="{% static 'main/responsive.css' %}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+<section class="hero">
+    <div class="hero-content">
+      <h1>Discover Your Next Adventure</h1>
+      <p>
+        Explore amazing places around the world
+        <span style="font-style: italic; font-size: 1.1rem; color: #3e1643"
+          ><b><a href="{% url 'register' %}">Sign up to begin your wonderful journey</a></b></span
+        >
+      </p>
+      <a href="{% url 'register' %}" class="btn">Sign up</a>
+    </div>
+  </section>
+
+  <script>
+    const navbarToggle = document.getElementById("navbar-toggle");
+    const navbarMenu = document.getElementById("navbar-menu");
+
+    navbarToggle.addEventListener("click", () => {
+      navbarMenu.classList.toggle("active");
+    });
+  </script>
+{% endblock %}
