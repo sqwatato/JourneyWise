@@ -6,54 +6,106 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Travel Mate</title>
-   
+    <link rel="stylesheet" href="{% static 'main/css/home.css' %}"/>
     <link href="{% static 'main/css/responsive.css' %}" rel="stylesheet">
     <link href="{% static 'main/css/attractions.css' %}" rel="stylesheet">
     <script src="{% static 'main/js/attractions.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'main/css/home.css' %}"/>
+    
 {% endblock %}
 {% block body %}
-    <div class="tr-card">
+    <div class="lg-container full-screen">
+      {% comment %} <div class="tr-card">
 
-      <div class="slider-container">
+        <div class="slider-container">
 
-        <img
-          class="slider-image"
-          src="{% static 'main/img/maldives/colin-watts-M1ObxvsWVhY-unsplash.jpg' %}"
-        />
-        <button class="prev-button"></button>
-        <button class="next-button"></button>
-      </div>
-      <div class="trinfo">
-        <div class="tripn">Beautiful Maldives</div>
-        <p>
-          The Maldives is a paradise on earth, with its turquoise waters, white
-          sandy beaches, and overwater bungalows. It's a great destination for
-          snorkeling, diving, and relaxing in luxury resorts.
-        </p>
-      </div>
-    </div>
-
-    <div id="restaurant">
-      <h3 style="text-align:center">Places to Eat</h3>
-
-      {% for restaurant in eat %} 
-      {% if restaurant.url %}
-        <a href="{{restaurant.url}}"><h3>{{restaurant.name}}</h3></a>
-      {% else %}
-      <h3>{{restaurant.name}}</h3>
-      {% endif %}
-      <ul>
-        {% if restaurant.photos %}
           <img
-            src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{restaurant.photos.0.photo_reference}}&key={{api}}"
-            alt=""
+            class="slider-image"
+            src="{% static 'main/img/maldives/colin-watts-M1ObxvsWVhY-unsplash.jpg' %}"
           />
-        {% endif %} 
+          <button class="prev-button"></button>
+          <button class="next-button"></button>
+        </div>
+        <div class="trinfo">
+          <div class="tripn">Beautiful Maldives</div>
+          <p>
+            The Maldives is a paradise on earth, with its turquoise waters, white
+            sandy beaches, and overwater bungalows. It's a great destination for
+            snorkeling, diving, and relaxing in luxury resorts.
+          </p>
+        </div>
+      </div> {% endcomment %}
+      <h1 style="font-size: 128px">Journey Wise</h1>
+  <hr />
+      {% if user.is_authenticated %}
+          <h1 style="font-size: 64px">Hello {{user.username}}</h1>
+      {% else %}
+          <h1 style="font-size: 64px">
+              You are not logged in
+          </h1>
+      {% endif %}
+      
+      </div>
+        <div class="different-container">
+          <h1 style="font-size: 2.5rem; margin-top: 20px">
+            Explore amazing places
+          </h1>
+        </div>
+        <div class="another-container">
+          <div class="search-box">
+            <input type="text" placeholder="Search" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 101 101"
+              id="search"
+            >
+              <path
+                d="M63.3 59.9c3.8-4.6 6.2-10.5 6.2-17 0-14.6-11.9-26.5-26.5-26.5S16.5 28.3 16.5 42.9 28.4 69.4 43 69.4c6.4 0 12.4-2.3 17-6.2l20.6 20.6c.5.5 1.1.7 1.7.7.6 0 1.2-.2 1.7-.7.9-.9.9-2.5 0-3.4L63.3 59.9zm-20.4 4.7c-12 0-21.7-9.7-21.7-21.7s9.7-21.7 21.7-21.7 21.7 9.7 21.7 21.7-9.7 21.7-21.7 21.7z"
+              ></path>
+            </svg>
+          </div>
+
+        </div>
+      <div class="lg-container move-container">
+        <section class="section-container">
+      
+            <div class="tr-wrapper">
+              {% for city, country, lat, lon, photo in spots %}
+                <div class="tr-card">
+                    <div class="tr-badge">
+                      <h4 style="color: black">$500</h4>
+                    </div>
+                    {% if photo %}
+                      <img
+                        src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photo_reference={{photo}}&key={{api}}"
+                        alt=""
+                      />
+                    {% endif %}
+                    <div class="trinfo">
+                      <div class="tripn">{{city}}, {{country}}</div>
+                      <p>
+                          Latitude: {{lat}}<br>
+                          Longitude: {{lon}}<br>
+                          The Maldives is a paradise on earth, with its turquoise waters,
+                          white sandy beaches, and overwater bungalows. It's a great
+                          destination for snorkeling, diving, and relaxing in luxury
+                          resorts.
+                      </p>
+                      <button><a href="{% url 'attractions' %}">BOOK NOW</a></button>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </section>
         
-      </ul>
-      {% endfor %}
-      <div class="tr-wrapper">
+      <img
+              src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{photo}}&key={{api}}"
+              alt=""
+            />
+      <h2>{{place}}</h2>
+      </div>
+    <div id="restaurant">
+      <h3 style="text-align:center; font-size:50px">Places to Eat</h3>
+      <div class="wrapper">
         {% for restaurant in eat %}
           <div class="tr-card">
               <div class="tr-badge">
@@ -98,92 +150,46 @@
     </div>
 
     <div id="tourist_spot">
-      <h3>Places to See</h3>
-      {% for place in places %} {% if place.url %}
-      <a href="{{place.url}}"><h3>{{place.name}}</h3></a>
-      {% else %}
-      <h3>{{place.name}}</h3>
-      {% endif %}
-      <ul>
-        {% if place.photos %}
-        <img
-          src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{place.photos.0.photo_reference}}&key={{api}}"
-          alt=""
-        />
-        {% endif %} {% if place.price_level == 0 %}
-        <li>Price Level: Free</li>
-        {% elif place.price_level == 1 %}
-        <li>Price Level: Inexpensive</li>
-        {% elif place.price_level == 2 %}
-        <li>Price Level: Moderate</li>
-        {% elif place.price_level == 3 %}
-        <li>Price Level: Expensive</li>
-        {% elif place.price_level == 4 %}
-        <li>Price Level: Very Expensive</li>
-        {% endif %} {% if place.rating %}
-        <li>Rating: {{place.rating}}/5</li>
-        {% endif %} {% if place.formatted_address %}
-        <li>Address: {{place.formatted_address}}</li>
-        {% endif %}
-      </ul>
-      <hr />
-      {% endfor %}
-    </div>
-    <h1>Journey Wise</h1>
-<hr />
-    {% if user.is_authenticated %}
-        <h3>Hello {{user.username}}</h3>
-    {% else %}
-        <h3>
-            You are not logged in
-        </h3>
-    {% endif %}
-
-    <section>
-        <div class="containerr">
-          <h1 style="font-size: 2.5rem; margin-top: 20px">
-            Explore amazing places
-          </h1>
-          <div class="search-box">
-            <input type="text" placeholder="Search" />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 101 101"
-              id="search"
-            >
-              <path
-                d="M63.3 59.9c3.8-4.6 6.2-10.5 6.2-17 0-14.6-11.9-26.5-26.5-26.5S16.5 28.3 16.5 42.9 28.4 69.4 43 69.4c6.4 0 12.4-2.3 17-6.2l20.6 20.6c.5.5 1.1.7 1.7.7.6 0 1.2-.2 1.7-.7.9-.9.9-2.5 0-3.4L63.3 59.9zm-20.4 4.7c-12 0-21.7-9.7-21.7-21.7s9.7-21.7 21.7-21.7 21.7 9.7 21.7 21.7-9.7 21.7-21.7 21.7z"
-              ></path>
-            </svg>
+      <h1 style="text-align:center;font-size:50px">Places to See</h3>
+      <div class="tr-wrapper">
+        {% for place in places %}
+          <div class="tr-card">
+              <div class="tr-badge">
+              {% comment %} <h4 style="color: black">$500</h4> {% endcomment %}
+              </div>
+              {% if place.photos %}
+                <img
+                  src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{place.photos.0.photo_reference}}&key={{api}}"
+                  alt=""
+                />
+              {% endif %} 
+              <div class="trinfo">
+              <div class="tripn">{{place.name}}</div>
+              <p>
+                <ul>
+                  {% if place.price_level == 0 %}
+                  <li>Price Level: Free</li>
+                  {% elif place.price_level == 1 %}
+                  <li>Price Level: Inexpensive</li>
+                  {% elif place.price_level == 2 %}
+                  <li>Price Level: Moderate</li>
+                  {% elif place.price_level == 3 %}
+                  <li>Price Level: Expensive</li>
+                  {% elif place.price_level == 4 %}
+                  <li>Price Level: Very Expensive</li>
+                  {% endif %} {% if place.rating %}
+                  <li>Rating: {{place.rating}}/5</li>
+                  {% endif %} {% if place.formatted_phone_number %}
+                  <li>Phone Number: {{place.formatted_phone_number}}</li>
+                  {% endif %} {% if place.formatted_address %}
+                  <li>Address: {{place.formatted_address}}</li>
+                  {% endif %}
+                </ul>
+              </p>
+              <button><a href="{{place.url}}">Learn More</a></button>
+              </div>
           </div>
-        </div>
-  
-        <div class="tr-wrapper">
-          {% for city, country, lat, lon, photo in spots %}
-            <div class="tr-card">
-                <div class="tr-badge">
-                <h4 style="color: black">$500</h4>
-                </div>
-                {% if photo %}
-                  <img
-                    src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photo_reference={{photo}}&key={{api}}"
-                    alt=""
-                  />
-                {% endif %}
-                <div class="trinfo">
-                <div class="tripn">{{city}}, {{country}}</div>
-                <p>
-                    Latitude: {{lat}}<br>
-                    Longitude: {{lon}}<br>
-                    The Maldives is a paradise on earth, with its turquoise waters,
-                    white sandy beaches, and overwater bungalows. It's a great
-                    destination for snorkeling, diving, and relaxing in luxury
-                    resorts.
-                </p>
-                <button><a href="{% url 'attractions' %}">BOOK NOW</a></button>
-                </div>
-            </div>
         {% endfor %}
-        </div>
-      </section>
+      </div>
+    </div>
 {% endblock %}

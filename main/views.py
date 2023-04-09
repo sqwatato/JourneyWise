@@ -22,9 +22,10 @@ amadeus = Client(client_id=env('AMADEUS_API_KEY'),
 def attractions(request, id):
     city = Destination.objects.get(id=id).city
     country = Destination.objects.get(id=id).country
-    response = gmaps.find_place(
-        f"{city}, {country}", "textquery", fields=["geometry/location"])
-    # print(response)
+    place = city + ", " + country
+    response = gmaps.find_place(f"{city}, {country}", "textquery", fields=["geometry/location", "photos"])
+    photo = response['candidates'][0]['photos'][0]['photo_reference']
+    print(response)
     lat, lon = response['candidates'][0]['geometry']['location'].values()
     loc = (lat, lon)
     eat = gmaps.places_nearby(location=loc, radius=20000, type="restaurant")[
@@ -35,6 +36,8 @@ def attractions(request, id):
     # print(eat,places)
 
     return render(request, "main/attractions.html", {
+        "place": place,
+        "photo": photo,
         "eat": eat,
         "places": places,
         "api": maps_api
