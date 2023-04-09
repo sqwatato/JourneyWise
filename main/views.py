@@ -66,7 +66,8 @@ def index(request):
         response = gmaps.find_place(f"{cit}, {con}", "textquery", fields=["price_level", "geometry/location", "place_id", "rating", "photos"])
         print(response)
         lat, lon = response['candidates'][0]['geometry']['location'].values()
-        spots.append((cit,con,lat,lon))
+        photo = response['candidates'][0]['photos'][0]['photo_reference']
+        spots.append((cit,con,lat,lon,photo))
 
     return render(request, "main/index.html", {
         "spots": spots,
