@@ -56,27 +56,27 @@
               <div class="trinfo">
               <div class="tripn">{{restaurant.name}}</div>
               <p>
-                <ul>
+                
                   {% if restaurant.dine_in %}
-                  <li>Dine In: {{restaurant.dine_in}}</li>  
+                  <p>Dine In: {{restaurant.dine_in}}</p>  
                   {% endif %} {% if restaurant.price_level == 0 %}
-                  <li>Price Level: Free</li>
+                  <p>Price Level: Free</p>
                   {% elif restaurant.price_level == 1 %}
-                  <li>Price Level: Inexpensive</li>
+                  <p>Price Level: Inexpensive</p>
                   {% elif restaurant.price_level == 2 %}
-                  <li>Price Level: Moderate</li>
+                  <p>Price Level: Moderate</p>
                   {% elif restaurant.price_level == 3 %}
-                  <li>Price Level: Expensive</li>
+                  <p>Price Level: Expensive</p>
                   {% elif restaurant.price_level == 4 %}
-                  <li>Price Level: Very Expensive</li>
+                  <p>Price Level: Very Expensive</p>
                   {% endif %} {% if restaurant.rating %}
-                  <li>Rating: {{restaurant.rating}}/5</li>
+                  <p>Rating: {{restaurant.rating}}/5</p>
                   {% endif %} {% if restaurant.formatted_phone_number %}
-                  <li>Phone Number: {{restaurant.formatted_phone_number}}</li>
+                  <p>Phone Number: {{restaurant.formatted_phone_number}}</p>
                   {% endif %} {% if restaurant.formatted_address %}
-                  <li>Address: {{restaurant.formatted_address}}</li>
+                  <p>Address: {{restaurant.formatted_address}}</p>
                   {% endif %}
-                </ul>
+                
               </p>
               <button><a href="{{restaurant.url}}">Learn More</a></button>
               </div>
@@ -104,21 +104,21 @@
               <p>
                 <ul>
                   {% if place.price_level == 0 %}
-                  <li>Price Level: Free</li>
+                  <p>Price Level: Free</p>
                   {% elif place.price_level == 1 %}
-                  <li>Price Level: Inexpensive</li>
+                  <p>Price Level: Inexpensive</p>
                   {% elif place.price_level == 2 %}
-                  <li>Price Level: Moderate</li>
+                  <p>Price Level: Moderate</p>
                   {% elif place.price_level == 3 %}
-                  <li>Price Level: Expensive</li>
+                  <p>Price Level: Expensive</p>
                   {% elif place.price_level == 4 %}
-                  <li>Price Level: Very Expensive</li>
+                  <p>Price Level: Very Expensive</p>
                   {% endif %} {% if place.rating %}
-                  <li>Rating: {{place.rating}}/5</li>
+                  <p>Rating: {{place.rating}}/5</p>
                   {% endif %} {% if place.formatted_phone_number %}
-                  <li>Phone Number: {{place.formatted_phone_number}}</li>
+                  <p>Phone Number: {{place.formatted_phone_number}}</p>
                   {% endif %} {% if place.formatted_address %}
-                  <li>Address: {{place.formatted_address}}</li>
+                  <p>Address: {{place.formatted_address}}</p>
                   {% endif %}
                 </ul>
               </p>
