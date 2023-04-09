@@ -6,14 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Travel Mate</title>
-   
+    <link rel="stylesheet" href="{% static 'main/css/home.css' %}"/>
     <link href="{% static 'main/css/responsive.css' %}" rel="stylesheet">
     <link href="{% static 'main/css/attractions.css' %}" rel="stylesheet">
     <script src="{% static 'main/js/attractions.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'main/css/home.css' %}"/>
+    
 {% endblock %}
 {% block body %}
-    <div class="tr-card">
+    {% comment %} <div class="tr-card">
 
       <div class="slider-container">
 
@@ -32,27 +32,15 @@
           snorkeling, diving, and relaxing in luxury resorts.
         </p>
       </div>
-    </div>
-
-    <div id="restaurant">
-      <h3 style="text-align:center">Places to Eat</h3>
-
-      {% for restaurant in eat %} 
-      {% if restaurant.url %}
-        <a href="{{restaurant.url}}"><h3>{{restaurant.name}}</h3></a>
-      {% else %}
-      <h3>{{restaurant.name}}</h3>
-      {% endif %}
-      <ul>
-        {% if restaurant.photos %}
-          <img
-            src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{restaurant.photos.0.photo_reference}}&key={{api}}"
+    </div> {% endcomment %}
+    <img
+            src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{photo}}&key={{api}}"
             alt=""
           />
-        {% endif %} 
-        
-      </ul>
-      {% endfor %}
+    <h2>{{place}}</h2>
+
+    <div id="restaurant">
+      <h3 style="text-align:centerfont-size:50px">Places to Eat</h3>
       <div class="tr-wrapper">
         {% for restaurant in eat %}
           <div class="tr-card">
@@ -98,35 +86,46 @@
     </div>
 
     <div id="tourist_spot">
-      <h3>Places to See</h3>
-      {% for place in places %} {% if place.url %}
-      <a href="{{place.url}}"><h3>{{place.name}}</h3></a>
-      {% else %}
-      <h3>{{place.name}}</h3>
-      {% endif %}
-      <ul>
-        {% if place.photos %}
-        <img
-          src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{place.photos.0.photo_reference}}&key={{api}}"
-          alt=""
-        />
-        {% endif %} {% if place.price_level == 0 %}
-        <li>Price Level: Free</li>
-        {% elif place.price_level == 1 %}
-        <li>Price Level: Inexpensive</li>
-        {% elif place.price_level == 2 %}
-        <li>Price Level: Moderate</li>
-        {% elif place.price_level == 3 %}
-        <li>Price Level: Expensive</li>
-        {% elif place.price_level == 4 %}
-        <li>Price Level: Very Expensive</li>
-        {% endif %} {% if place.rating %}
-        <li>Rating: {{place.rating}}/5</li>
-        {% endif %} {% if place.formatted_address %}
-        <li>Address: {{place.formatted_address}}</li>
-        {% endif %}
-      </ul>
-      <hr />
-      {% endfor %}
+      <h1 style="text-align:center;font-size:50px">Places to See</h3>
+      <div class="tr-wrapper">
+        {% for place in places %}
+          <div class="tr-card">
+              <div class="tr-badge">
+              {% comment %} <h4 style="color: black">$500</h4> {% endcomment %}
+              </div>
+              {% if place.photos %}
+                <img
+                  src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{place.photos.0.photo_reference}}&key={{api}}"
+                  alt=""
+                />
+              {% endif %} 
+              <div class="trinfo">
+              <div class="tripn">{{place.name}}</div>
+              <p>
+                <ul>
+                  {% if place.price_level == 0 %}
+                  <li>Price Level: Free</li>
+                  {% elif place.price_level == 1 %}
+                  <li>Price Level: Inexpensive</li>
+                  {% elif place.price_level == 2 %}
+                  <li>Price Level: Moderate</li>
+                  {% elif place.price_level == 3 %}
+                  <li>Price Level: Expensive</li>
+                  {% elif place.price_level == 4 %}
+                  <li>Price Level: Very Expensive</li>
+                  {% endif %} {% if place.rating %}
+                  <li>Rating: {{place.rating}}/5</li>
+                  {% endif %} {% if place.formatted_phone_number %}
+                  <li>Phone Number: {{place.formatted_phone_number}}</li>
+                  {% endif %} {% if place.formatted_address %}
+                  <li>Address: {{place.formatted_address}}</li>
+                  {% endif %}
+                </ul>
+              </p>
+              <button><a href="{{place.url}}">Learn More</a></button>
+              </div>
+          </div>
+        {% endfor %}
+      </div>
     </div>
 {% endblock %}
