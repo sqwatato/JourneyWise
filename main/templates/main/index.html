@@ -35,10 +35,10 @@
         </div>
   
         <div class="tr-wrapper">
-          {% for city, country, lat, lon, photo in spots %}
+          {% for dbid, id, city, country, lat, lon, photo in spots %}
             <div class="tr-card">
                 <div class="tr-badge">
-                <h4 style="color: black">$500</h4>
+                {% comment %} <h4 style="color: black">$500</h4> {% endcomment %}
                 </div>
                 {% if photo %}
                   <img
@@ -49,14 +49,13 @@
                 <div class="trinfo">
                 <div class="tripn">{{city}}, {{country}}</div>
                 <p>
-                    Latitude: {{lat}}<br>
-                    Longitude: {{lon}}<br>
-                    The Maldives is a paradise on earth, with its turquoise waters,
-                    white sandy beaches, and overwater bungalows. It's a great
-                    destination for snorkeling, diving, and relaxing in luxury
-                    resorts.
+                    <br><br>
+                    Latitude: {{lat}}<span style="white-space: pre;">         </span>Longitude: {{lon}}<span style="white-space: pre;">         </span>
+                    <br>
+                    {% comment %} Rating: {% endcomment %}
+                    <br><br><br><br>
                 </p>
-                <button><a href="{% url 'attractions' %}">BOOK NOW</a></button>
+                <button><a href="{% url 'attractions' dbid %}">Learn More</a></button>
                 </div>
             </div>
         {% endfor %}
