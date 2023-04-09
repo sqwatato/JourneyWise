@@ -8,4 +8,90 @@
     {% else %}
         <h3>You are not logged in<h3>
     {% endif %}
+    <div id="restaurant">
+        <h3>Places to Eat</h3>
+        
+        {% for restaurant in eat %}
+            {% if restaurant.url %}
+                <a href="{{restaurant.url}}"><h3>{{restaurant.name}}</h3></a>
+            {% else %}
+                <h3>{{restaurant.name}}</h3>
+            {% endif %}
+            <ul>
+                {% if restaurant.photos %}
+                    <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{restaurant.photos.0.photo_reference}}&key={{api}}" alt="">
+                {% endif %}
+
+                {% if restaurant.dine_in %}
+                    <li>Dine In: {{restaurant.dine_in}}</li>
+                {% endif %}
+
+                {% if restaurant.price_level == 0 %}
+                    <li>Price Level: Free</li>
+                {% elif restaurant.price_level == 1 %}
+                    <li>Price Level: Inexpensive</li>
+                {% elif restaurant.price_level == "2" %}
+                    <li>Price Level: Moderate</li>
+                {% elif restaurant.price_level == 3 %}
+                    <li>Price Level: Expensive</li>
+                {% elif restaurant.price_level == 4 %}
+                    <li>Price Level: Very Expensive</li>
+                {% endif %}
+                
+                {% if restaurant.rating %}
+                    <li>Rating: {{restaurant.rating}}/5</li>
+                {% endif %}
+
+                {% if restaurant.formatted_phone_number %}
+                    <li>Phone Number: {{restaurant.formatted_phone_number}}</li>
+                {% endif %}
+
+                {% if restaurant.formatted_address %}
+                    <li>Address: {{restaurant.formatted_address}}</li>
+                {% endif %}
+
+            </ul>
+            <hr>
+        {% endfor %}
+    </div>
+
+    <div id="tourist_spot">
+        <h3>Places to See</h3>
+        {% for place in places %}
+            {% if place.url %}
+                <a href="{{place.url}}"><h3>{{place.name}}</h3></a>
+            {% else %}
+                <h3>{{place.name}}</h3>
+            {% endif %}
+            <ul>
+                {% if place.photos %}
+                    <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{place.photos.0.photo_reference}}&key={{api}}" alt="">
+                {% endif %}
+
+                {% if place.price_level == 0 %}
+                    <li>Price Level: Free</li>
+                {% elif place.price_level == 1 %}
+                    <li>Price Level: Inexpensive</li>
+                {% elif place.price_level == 2 %}
+                    <li>Price Level: Moderate</li>
+                {% elif place.price_level == 3 %}
+                    <li>Price Level: Expensive</li>
+                {% elif place.price_level == 4 %}
+                    <li>Price Level: Very Expensive</li>
+                {% endif %}
+                
+                {% if place.rating %}
+                    <li>Rating: {{place.rating}}/5</li>
+                {% endif %}
+
+                {% if place.formatted_address %}
+                    <li>Address: {{place.formatted_address}}</li>
+                {% endif %}
+
+            </ul>
+            <hr>
+        {% endfor %}
+    </div>
+    
+
 {% endblock %}
