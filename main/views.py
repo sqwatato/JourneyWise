@@ -47,7 +47,7 @@ def attractions(request, id):
         else:
             shopping = []
             for result in shoppingResponse['data']:
-                if len(result['pictures']) > 0:
+                if len(result['pictures']) > 0 and len(result['shortDescription']) < 200: 
                     shopping.append(result)
                 if len(shopping) >= 3:
                     break
