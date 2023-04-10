@@ -40,13 +40,12 @@
                 <div class="trinfo">
                 <div class="tripn">{{city}}, {{country}}</div>
                 <p>
-                    <br>
-                    Latitude: {{lat}}<span style="white-space: pre;">         </span>Longitude: {{lon}}<span style="white-space: pre;">         </span>
-                    <br>
-                    {% comment %} Rating: {% endcomment %}
-                    <br><br><br><br>
-                </p>
-                <button><a href="{% url 'attractions' dbid %}">Learn More</a></button>
+                  <br>
+                  Latitude: {{lat|floatformat:3}}<span style="white-space: pre;">   </span>Longitude: {{lon|floatformat:3}}<span style="white-space: pre;">        </span>
+                  <br>
+                  <br><br><br><br>
+              </p>
+                <button><a href="{% url 'attractions' dbid %}">More</a></button>
                 </div>
             </div>
             {% endfor %}

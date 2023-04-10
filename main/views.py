@@ -56,6 +56,7 @@ def attractions(request, id):
         shopping = False
     try:
         safe = amadeus.safety.safety_rated_locations.get(latitude=lat, longitude=lon).result
+        # print(safe)
         safetyScores = {'lgbtq': 0, 'medical': 0, 'overall': 0, 'physicalHarm': 0, 'politicalFreedom': 0, 'theft': 0, 'women': 0}
         c = 0
         for score in safe['data']:
@@ -63,12 +64,12 @@ def attractions(request, id):
                 safetyScores[a] += b
             c += 1
         if c == 0:
-            safe = False
+            safetyScores = False
         else:
             for a,b in safetyScores.items():
                 safetyScores[a] = round(b/c)
-    except ResponseError:
-        safe = False
+    except (ResponseError,KeyError):
+        safetyScores = False
     # print(eat,places)
 
     return render(request, "main/attractions.html", {
@@ -87,8 +88,6 @@ def plans(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/login')
     if request.user.is_authenticated:
-        print("here")
-        print(request.user)
         places = Destination.objects.filter(booker=request.user)
         city, country, db = [], [], []
         for place in places:
