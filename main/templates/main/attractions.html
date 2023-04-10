@@ -6,46 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Travel Mate</title>
     <link rel="stylesheet" href="{% static 'main/css/home.css' %}"/>
-    <link href="{% static 'main/css/responsive.css' %}" rel="stylesheet">
-    <link href="{% static 'main/css/attractions.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'main/css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/attractions.css' %}">
     <script src="{% static 'main/js/attractions.js' %}"></script>
     
 {% endblock %}
 {% block body %}
-    {% comment %} <div class="lg-container full-screen"> {% endcomment %}
-      {% comment %} <div class="tr-card">
+  <div class="containers" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+      <div>
+        {% comment %} <div class="tr-card">
 
-        <div class="slider-container">
+          <div class="slider-container">
 
-        <img
-          class="slider-image"
-          src="{% static 'main/img/maldives/colin-watts-M1ObxvsWVhY-unsplash.jpg' %}"
-        />
-        <button class="prev-button"></button>
-        <button class="next-button"></button>
-      </div>
-      <div class="trinfo">
-        <div class="tripn">Beautiful Maldives</div>
-        <p>
-          The Maldives is a paradise on earth, with its turquoise waters, white
-          sandy beaches, and overwater bungalows. It's a great destination for
-          snorkeling, diving, and relaxing in luxury resorts.
-        </p>
-      </div>
-    </div> {% endcomment %}
-    <img
-            src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{photo}}&key={{api}}"
-            alt=""
+          <img
+            class="slider-image"
+            src="{% static 'main/img/maldives/colin-watts-M1ObxvsWVhY-unsplash.jpg' %}"
           />
-    <h2>{{place}}</h2>
+          <button class="prev-button"></button>
+          <button class="next-button"></button>
+        </div>
+        <div class="trinfo">
+          <div class="tripn">Beautiful Maldives</div>
+          <p>
+            The Maldives is a paradise on earth, with its turquoise waters, white
+            sandy beaches, and overwater bungalows. It's a great destination for
+            snorkeling, diving, and relaxing in luxury resorts.
+          </p>
+        </div>
+      </div> {% endcomment %}
+      <img
+              src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{photo}}&key={{api}}"
+              alt=""
+              style="margin-top: 50px;"
+            />
+      <h2>{{place}}</h2>
 
-    {% if user.is_authenticated %}
-      <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="dbid" value={{dbid}}>
-        <button type="submit">Add to Visit List</button>
-      </form>
-    {% endif %}
+      {% if user.is_authenticated %}
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="dbid" value={{dbid}}>
+          <button style="display: inline-block;
+          background: white;
+          color: #000000;
+          padding: 15px 35px;
+          border-radius: 10px;
+          text-decoration: none;
+          transition: all 0.4s ease;
+          font-size: 1.3rem;
+          box-shadow: 3px 3px 10px white;
+          margin-top: 10px;
+          margin-bottom: 50px;
+          " type="submit">Add to Visit List</button>
+        </form>
+      {% endif %}
+        </div>
+    </div>
     <div id="restaurant">
       <h3 style="text-align:center; font-size:50px">Places to Eat</h3>
       <div class="tr-wrapper">
