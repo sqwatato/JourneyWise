@@ -13,6 +13,12 @@
     
 {% endblock %}
 {% block body %}
+  <style>
+    .container {
+      width: 100%; /* Full width */
+      background-color: #ddd; /* Grey background */
+    }
+  </style>
     {% comment %} <div class="lg-container full-screen"> {% endcomment %}
       {% comment %} <div class="tr-card">
 
@@ -46,7 +52,17 @@
         <button type="submit">Add to Visit List</button>
       </form>
     {% endif %}
-    <div id="restaurant">
+    
+    <div style="margin:50px">
+      {% for category, score in safetyScores.items %}
+        <h6 style="margin-up:10px;">{{category}}</h6>
+        <div class="container">
+          <div class="skills" style="width: {{score}}%; background-color:#808080;border-radius:10px;">{{score}}%</div>
+        </div>
+      {% endfor %}
+    </div>
+    
+    <div id="restaurant"> 
       <h3 style="text-align:center; font-size:50px">Places to Eat</h3>
       <div class="tr-wrapper">
         {% for restaurant in eat %}

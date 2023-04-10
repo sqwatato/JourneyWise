@@ -40,16 +40,35 @@ def attractions(request, id):
     # places = gmaps.places_nearby(location=loc, radius=50000, type="tourist_attraction")['results'][:6]
     places = gmaps.places_nearby(
         location=loc, radius=20000, keyword="Things to Do")['results'][:6]
-    # try:
-    #     shopping = amadeus.shopping.activities.get(latitude=lat, longitude=lon).result
-    #     print(shopping)
-    # except ResponseError:
-    #     shopping = False
-    # try:
-    #     safe = amadeus.safety.safety_rated_locations.get(latitude=lat, longitude=lon).result
-    #     print(safe)
-    # except ResponseError:
-    #     safe = False
+    try:
+        shoppingResponse = amadeus.shopping.activities.get(latitude=lat, longitude=lon).result
+        if shoppingResponse['meta']['count'] == 0:
+            shopping = False
+        else:
+            shopping = []
+            for result in shoppingResponse['data']:
+                if len(result['pictures']) > 0:
+                    shopping.append(result)
+                if len(shopping) >= 3:
+                    break
+        print(shopping)
+    except ResponseError:
+        shopping = False
+    try:
+        safe = amadeus.safety.safety_rated_locations.get(latitude=lat, longitude=lon).result
+        safetyScores = {'lgbtq': 0, 'medical': 0, 'overall': 0, 'physicalHarm': 0, 'politicalFreedom': 0, 'theft': 0, 'women': 0}
+        c = 0
+        for score in safe['data']:
+            for a,b in score['safetyScores'].items():
+                safetyScores[a] += b
+            c += 1
+        if c == 0:
+            safe = False
+        else:
+            for a,b in safetyScores.items():
+                safetyScores[a] = round(b/c)
+    except ResponseError:
+        safe = False
     # print(eat,places)
 
     return render(request, "main/attractions.html", {
@@ -58,7 +77,9 @@ def attractions(request, id):
         "eat": eat,
         "places": places,
         "api": maps_api,
-        "dbid": id
+        "dbid": id,
+        "shopping": shopping,
+        "safetyScores": safetyScores
     })
 
 

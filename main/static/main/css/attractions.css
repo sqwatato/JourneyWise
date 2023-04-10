@@ -205,3 +205,10 @@
 }
 
 
+.skills {
+    text-align: right; /* Right-align text */
+    padding-top: 10px; /* Add top padding */
+    padding-bottom: 10px; /* Add bottom padding */
+    padding-right: 5px;
+    color: white; /* White text color */
+}
