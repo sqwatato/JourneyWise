@@ -37,12 +37,12 @@
       <img
               src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={{photo}}&key={{api}}"
               alt=""
-              style="margin-top: 50px;"
+              style="margin-top: 50px; width: 47.37vw; height: 35.53vw; object-fit: cover;"
             />
-      <h2>{{place}}</h2>
+      <h2 style="text-align: center; font-size: 48px;">{{place}}</h2>
 
       {% if user.is_authenticated %}
-        <form method="post">
+        <form style="display: flex; justify-content: center;" method="post">
           {% csrf_token %}
           <input type="hidden" name="dbid" value={{dbid}}>
           <button style="display: inline-block;
