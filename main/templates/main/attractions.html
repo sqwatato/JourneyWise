@@ -12,8 +12,11 @@
     
 {% endblock %}
 {% block body %}
-    {% comment %} <div class="tr-card">
-      <div class="slider-container">
+    {% comment %} <div class="lg-container full-screen"> {% endcomment %}
+      {% comment %} <div class="tr-card">
+
+        <div class="slider-container">
+
         <img
           class="slider-image"
           src="{% static 'main/img/maldives/colin-watts-M1ObxvsWVhY-unsplash.jpg' %}"
@@ -44,7 +47,7 @@
       </form>
     {% endif %}
     <div id="restaurant">
-      <h3 style="text-align:center; font-size:50px;">Places to Eat</h3>
+      <h3 style="text-align:center; font-size:50px">Places to Eat</h3>
       <div class="tr-wrapper">
         {% for restaurant in eat %}
           <div class="tr-card">
@@ -89,7 +92,7 @@
       </div>
     </div>
     <div id="tourist_spot">
-      <h1 style="text-align:center;font-size:50px">Places to See</h3>
+      <h3 style="text-align:center;font-size:50px">Places to See</h3>
       <div class="tr-wrapper">
         {% for place in places %}
           <div class="tr-card">
