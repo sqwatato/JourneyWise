@@ -40,6 +40,16 @@ def attractions(request, id):
     # places = gmaps.places_nearby(location=loc, radius=50000, type="tourist_attraction")['results'][:6]
     places = gmaps.places_nearby(
         location=loc, radius=20000, keyword="Things to Do")['results'][:6]
+    # try:
+    #     shopping = amadeus.shopping.activities.get(latitude=lat, longitude=lon).result
+    #     print(shopping)
+    # except ResponseError:
+    #     shopping = False
+    # try:
+    #     safe = amadeus.safety.safety_rated_locations.get(latitude=lat, longitude=lon).result
+    #     print(safe)
+    # except ResponseError:
+    #     safe = False
     # print(eat,places)
 
     return render(request, "main/attractions.html", {
