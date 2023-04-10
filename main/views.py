@@ -51,7 +51,7 @@ def attractions(request, id):
                     shopping.append(result)
                 if len(shopping) >= 3:
                     break
-        print(shopping)
+        # print(shopping)
     except ResponseError:
         shopping = False
     try:
@@ -88,7 +88,8 @@ def plans(request):
         return HttpResponseRedirect('/login')
     if request.user.is_authenticated:
         print("here")
-        places = Destination.objects.all()
+        print(request.user)
+        places = Destination.objects.filter(booker=request.user)
         city, country, db = [], [], []
         for place in places:
             city.append(place.city)
