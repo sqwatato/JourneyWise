@@ -251,10 +251,6 @@
             transform: translateY(120px);
   }
   }
-.containerr {
-    /* display: flex;
-    justify-content: space-between; */
-}
 .search-box {
     display: flex;
     float: right;

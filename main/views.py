@@ -57,7 +57,8 @@ def plans(request):
         return HttpResponseRedirect('/login')
     if request.user.is_authenticated:
         print("here")
-        places = Destination.objects.all()
+        print(request.user)
+        places = Destination.objects.filter(booker=request.user)
         city, country, db = [], [], []
         for place in places:
             city.append(place.city)
