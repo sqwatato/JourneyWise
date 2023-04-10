@@ -110,7 +110,7 @@
                   <p>Price Level: Expensive</p>
                   {% elif restaurant.price_level == 4 %}
                   <p>Price Level: Very Expensive</p>
-                  {% endif %} {% if restaurant.rating %}
+                  {% endif %}  <br> {% if restaurant.rating %}
                   <p>Rating: {{restaurant.rating}}/5</p>
                   {% endif %} {% if restaurant.formatted_phone_number %}
                   <p>Phone Number: {{restaurant.formatted_phone_number}}</p>
@@ -153,7 +153,7 @@
                   <p>Price Level: Expensive</p>
                   {% elif place.price_level == 4 %}
                   <p>Price Level: Very Expensive</p>
-                  {% endif %} {% if place.rating %}
+                  {% endif %}<br> {% if place.rating %}
                   <p>Rating: {{place.rating}}/5</p>
                   {% endif %} {% if place.formatted_phone_number %}
                   <p>Phone Number: {{place.formatted_phone_number}}</p>

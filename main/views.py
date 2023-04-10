@@ -180,8 +180,8 @@ def logout_view(request):
 
 
 def register(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect('/login')
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('index'))
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
