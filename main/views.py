@@ -20,7 +20,8 @@ amadeus = Client(client_id=env('AMADEUS_API_KEY'),
 
 
 def attractions(request, id):
-
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/login')
     if request.method == 'POST':
         request.user.destinations.add(Destination.objects.get(id=id))
         return HttpResponseRedirect(reverse("index"))
@@ -52,13 +53,16 @@ def attractions(request, id):
 
 
 def plans(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/login')
     if request.user.is_authenticated:
-        places = Destination.objects.filter(booker=request.user)
+        print("here")
+        places = Destination.objects.all()
         city, country, db = [], [], []
-        for i in range(len(places)):
-            city.append(places[i].city)
-            country.append(places[i].country)
-            db.append(places[i].id)
+        for place in places:
+            city.append(place.city)
+            country.append(place.country)
+            db.append(place.id)
         # try:
         #     response = amadeus.reference_data.locations.cities.get(
         #         keyword=city).result
@@ -87,6 +91,8 @@ def plans(request):
 
 
 def index(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/login')
     places = Destination.objects.all()
     city, country, db = [], [], []
     for i in range(15):
@@ -143,6 +149,8 @@ def logout_view(request):
 
 
 def register(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/login')
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -168,4 +176,6 @@ def register(request):
 #     return render(request, "main/attractions.html")
 
 def intro(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/login')
     return render(request, "main/intro.html")
